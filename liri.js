@@ -12,13 +12,9 @@ let input = process.argv[3];
 let contents = 'Log all the information here! ';
 
 //============================================
-//=============== read and write =============
+//=============== read file =============
 //============================================
-fs.writeFile(fileName, contents, function(err){
-  if (err) {
-    console.log(err)
-  }
-})
+
 
 fs.readFile(fileName, 'utf8', function(err,data){
   if (err) {
@@ -55,16 +51,14 @@ if (command === "my-tweets") {
       };
 
       client.get('statuses/user_timeline', params, function(error, tweets, response) {
-        if (!error) {
-      for (i=0; i<tweets.length; i++) {
-          var returnedData = ('Number: ' + (i+1) + '\n' + tweets[i].created_at + '\n'+ '@' +tweets[i].user.name+ ': ' + tweets[i].text + '\n');
-          console.log(returnedData);
-          console.log("-------------------------");
+            if (!error) {
+                  for (i=0; i<tweets.length; i++) {
+                      var returnedData = ('Number: ' + (i+1) + '\n' + tweets[i].created_at + '\n'+ '@' +tweets[i].user.name+ ': ' + tweets[i].text + '\n');
+                      console.log(returnedData);
+                      console.log("-------------------------");
 
-      }
-  };
-
-
+                  }
+            };
       });//end client get
 
 }//end if tweet
@@ -100,50 +94,51 @@ if (command === "my-tweets") {
           //============================================
 
           request('http://www.omdbapi.com/?apikey=40e9cece&t=' + input+ '&r=json', function (error, response, body) {
-                if (!error) {
-                  console.log('body:', response.body);
-                  console.log('statusCode:', response.statusCode);
-                }
+                    if (!error) {
+                        console.log('body:', response.body);
+                        console.log('statusCode:', response.statusCode);
+                    }
 
 
-                fs.appendFile(fileName, ", " + body, function(err){
-                  if (err) {
-                    console.log(err)
-                  }
-                })
+                    fs.appendFile(fileName, ", " + body, function(err){
+                      if (err) {
+                        console.log(err)
+                      }
+                    })
           });
 
     }//do-what-it-says
       else if (command === "do-what-it-says") {
-        fs.readFile('random.txt', 'utf8', function(err, data){
-          if(err){
-            console.log(err)
-          }
-          fs.appendFile(fileName, ", " + data, function(err){
-            if (err) {
-              console.log(err)
-            }
-          })
-          console.log(data)
 
-        })
+            fs.readFile('random.txt', 'utf8', function(err, data){
+              if(err){
+                console.log(err)
+              }
+              fs.appendFile(fileName, ", " + data, function(err){
+                if (err) {
+                  console.log(err)
+                }
+              })
+              console.log(data)
+
+            })
+      }
+      //bonus material for MRNOBODY
+      else if (command === "movie-this" && input === "undefined"){
+
+            request('http://www.omdbapi.com/?apikey=40e9cece&t=mr+nobody&r=json', function (error, response, body) {
+                      if (!error) {
+                          console.log('body:', response.body);
+                          console.log('statusCode:', response.statusCode);
 
 
-  }
+                          console.log("if you have not watched MR. Nobody, then you should")
 
-  else if (command === "movie-this" && !input){
-    request('http://www.omdbapi.com/?apikey=40e9cece&t=mr+nobody&r=json', function (error, response, body) {
-          if (!error) {
-            console.log('body:', response.body);
-            console.log('statusCode:', response.statusCode);
-          }
-
-          console.log("if you have not watched MR. Nobody, then you should")
-
-          fs.appendFile(fileName, ", " + body, function(err){
-            if (err) {
-              console.log(err)
-            }
-          })
-    });
-  }
+                          fs.appendFile(fileName, ", " + body, function(err){
+                                if (err) {
+                                  console.log(err)
+                                }
+                          })
+                      }
+            });
+      }
