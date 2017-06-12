@@ -3,21 +3,18 @@
 //============================================
 
 //grab from keys.js
-var twitterKeys = require("./keys.js")
+var keys = require("./keys.js")
 var Twitter = require('twitter');
 
-var twitterConsumerKey = twitterKeys.consumer_key;
-var twitterConsumerSecret = twitterKeys.consumer_secret;
-var accessTokenKey = twitterKeys.access_token_key;
-var accessTokenSecret = twitterKeys.access_token_secret;
+
 
 
 
 var client = new Twitter({
-  consumer_key: process.env.twitterConsumerKey,
-  consumer_secret: process.env.twitterConsumerSecret,
-  access_token_key: process.env.accessTokenKey,
-  access_token_secret: process.env.accessTokenSecret
+  consumer_key: keys.twitterKeys.consumer_key,
+  consumer_secret: keys.twitterKeys.consumer_secret,
+  access_token_key: keys.twitterKeys.access_token_key,
+  access_token_secret: keys.twitterKeys.access_token_secret
 });
 
 
@@ -69,14 +66,22 @@ var command = process.argv[2];
 
 if (command === "my-tweets") {
 
-  var params = {screen_name: 'allaboutmada'};
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-        if (!error) {
-          console.log(tweets);
-        }
-    });
+      var params = {
+        screen_name: 'allaboutmada',
+        count:20
+      };
 
-}
+      client.get('statuses/user_timeline', params, function(error, tweets, response) {
+
+            if (!error) {
+
+              console.log(tweets)
+
+            };//end if
+
+      });//end client get
+
+}//end if tweet
 
 //spotify this song
 
