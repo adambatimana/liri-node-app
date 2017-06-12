@@ -95,10 +95,21 @@ if (command === "my-tweets") {
 
           request('http://www.omdbapi.com/?apikey=40e9cece&t=' + input+ '&r=json', function (error, response, body) {
                     if (!error) {
-                        console.log('body:', response.body);
-                        console.log('statusCode:', response.statusCode);
-                    }
+                        var results = JSON.parse(response.body)
 
+                        console.log
+                        ('body:', results.Title,
+                            results.Year,
+                            results.Ratings[0].Value,
+                            results.Country,
+                            results.Language,
+                            results.Plot,
+                            results.Actors,
+                            results.Ratings[1].Value
+                        );
+
+                    }
+                    console.log('statusCode:', response.statusCode);
 
                     fs.appendFile(fileName, ", " + body, function(err){
                       if (err) {
