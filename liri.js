@@ -87,7 +87,7 @@ if (command === "my-tweets") {
       //=============== OMDB ====================
       //============================================
           //movie-this
-      else if (command === "movie-this") {
+      else if (command === "movie-this" && input !== undefined) {
 
           //============================================
           //=============== Request ====================
@@ -97,19 +97,17 @@ if (command === "my-tweets") {
                     if (!error) {
                         var results = JSON.parse(response.body)
 
-                        console.log
-                        ('body:', results.Title,
-                            results.Year,
-                            results.Ratings[0].Value,
-                            results.Country,
-                            results.Language,
-                            results.Plot,
-                            results.Actors,
-                            results.Ratings[1].Value
-                        );
+                        console.log("TITLE : " + results.Title);
+                        console.log("YEAR : " + results.Year);
+                        console.log("Rating : " + results.Ratings[0].Value);
+                        console.log("COUNTRY : " + results.Country);
+                        console.log("LANG : " + results.Language);
+                        console.log("PLOT : " + results.Plot);
+                        console.log("ACTORS: " + results.Actors);
+                        console.log("ROTTEN TOMATOS: " + results.Ratings[2].Value);
 
                     }
-                    console.log('statusCode:', response.statusCode);
+                    // console.log('statusCode:', response.statusCode);
 
                     fs.appendFile(fileName, ", " + body, function(err){
                       if (err) {
@@ -135,15 +133,24 @@ if (command === "my-tweets") {
             })
       }
       //bonus material for MRNOBODY
-      else if (command === "movie-this" && input === "undefined"){
+      else if (command === "movie-this" && !input){
 
             request('http://www.omdbapi.com/?apikey=40e9cece&t=mr+nobody&r=json', function (error, response, body) {
                       if (!error) {
-                          console.log('body:', response.body);
-                          console.log('statusCode:', response.statusCode);
+                        var results = JSON.parse(response.body)
+
+                        console.log("TITLE : " + results.Title);
+                        console.log("YEAR : " + results.Year);
+                        console.log("RATINGS: " + results.Ratings[0].Value);
+                        console.log("COUNTRY : " + results.Country);
+                        console.log("LANG : " + results.Language);
+                        console.log("PLOT : " + results.Plot);
+                        console.log("ACTORS: " + results.Actors);
+                        console.log("ROTTEN TOMATOS: " + results.Ratings[2].Value);
+                          // console.log('statusCode:', response.statusCode);
 
 
-                          console.log("if you have not watched MR. Nobody, then you should")
+                          console.log("if you have not watched MR. Nobody, then you should! ")
 
                           fs.appendFile(fileName, ", " + body, function(err){
                                 if (err) {
